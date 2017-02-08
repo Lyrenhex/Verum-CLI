@@ -22,7 +22,7 @@ if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (pro
   process.argv.splice(3, 0, password);
 } else {
   try {
-    var data = fs.readFile(`${PATH}user.json`, 'utf-8');
+    var data = fs.readFileSync(`${PATH}user.json`, 'utf-8');
     var json = JSON.parse(data);
     username = json.username;
     password = json.password;
