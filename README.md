@@ -55,4 +55,4 @@ Then, simply run `[sudo] snap install verum-cli` to install it. Run `snap refres
   - you should replace `user@examplenode.net` with your `verum id` and `randomPass123` with your verum password.
 4. You no longer need to include your username and password in `verum-cli` calls. Nice!
 
-(Note that if you do specify a `verum id` and password via the CLI, that will *always* take priority over `user.json`.
+(Note that if you do specify a `verum id` and password via the CLI, that will *always* take priority over `user.json`.)
