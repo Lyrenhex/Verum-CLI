@@ -1,5 +1,5 @@
 # verum-cli
-### the official command-line client for the Verum encrypted chat system
+the official command-line client for the Verum encrypted chat system
 
 ## What can verum-cli do?
 `verum-cli` is a fairly flexible application, especially as it's open source. It's capable of registering you on a Node, updating your public key on your Node, sending a messages, and retrieving and decrypting your messages.
