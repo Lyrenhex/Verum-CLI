@@ -26,6 +26,8 @@ if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (pro
     var json = JSON.parse(data);
     username = json.username;
     password = json.password;
+    process.argv.splice(2, 0, username);
+    process.argv.splice(3, 0, password)
   } catch (e) {
     console.log(`Syntax: verum-cli <username> <password> <action> [options]
 
