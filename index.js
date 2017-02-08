@@ -9,7 +9,7 @@ var username = null;
 var password = null;
 var action = null;
 
-const PATH = process.env.HOME
+const PATH = process.env.HOME + '/';
 console.log(`NOTICE: All file paths should be provided relative to ${process.env.HOME} -- you should export your PGP keys here if you haven't already. (You may also place the files in common, if you want them to persist across versions -- including betas!)`);
 
 if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (process.argv.length === 7)) {
