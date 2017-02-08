@@ -10,7 +10,7 @@ var password = null;
 var action = null;
 
 const PATH = process.env.HOME + '/';
-console.log(`NOTICE: All file paths should be provided relative to ${process.env.HOME} -- you should export your PGP keys here if you haven't already. (You may also place the files in common, if you want them to persist across versions -- including betas!)`);
+console.log(`NOTICE: All file paths should be provided relative to ${PATH} -- you should export your PGP keys here if you haven't already. (You may also place the files in common, if you want them to persist across versions -- including betas!)`);
 
 if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (process.argv.length === 7)) {
   username = process.argv[2];
@@ -22,8 +22,8 @@ if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (pro
   process.argv.splice(3, 0, password);
 } else {
   try {
-    var json = fs.readFile(`${PATH}user.json`, 'utf-8');
-    json = JSON.parse(json);
+    var data = fs.readFile(`${PATH}user.json`, 'utf-8');
+    var json = JSON.parse(data);
     username = json.username;
     password = json.password;
   } catch (e) {
@@ -86,7 +86,7 @@ client.Events.on('public_key', (user, key) => {
   if (user == username) {
     console.log("Your public key is currently ", key);
     if (readlineSync.question("Would you like to change this key? [y/N] ").toLowerCase() === "y") {
-      var pubkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored public key file (should be done with full path): ");
+      var pubkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored public key file: ");
       fs.readFile(`${PATH}${pubkeyLoc}`, 'utf-8', (err, data) => {
         if (err)
           console.log("Couldn't read the file: ", err);
