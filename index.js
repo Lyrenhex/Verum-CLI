@@ -18,7 +18,9 @@ if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (pro
   process.argv.splice(2, 0, username);
   process.argv.splice(3, 0, password);
 } else {
-  console.log("Syntax: ./index.js <username> <password> <action> [options]");
+  console.log(`Syntax: verum-cli <username> <password> <action> [options]
+
+Alternatively, you may set the VERUM_ID and VERUM_PASS environment variables to your username and password, respectively, and these may then be omitted from the command syntax.`);
   process.exit();
 }
 
@@ -82,6 +84,8 @@ client.Events.on('public_key', (user, key) => {
           client.updatePubKey (username, password, pubKey);
         }
       });
+    } else {
+      process.exit();
     }
   }
 });

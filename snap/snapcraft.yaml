@@ -1,0 +1,17 @@
+name: verum-cli
+version: "1.0.0"
+summary: The official Verum CLI interface app.
+description: A Verum client to register with a Node, change your public key, send messages, and receive messages.
+confinement: strict
+
+apps:
+  verum-cli:
+    command: lib/node_modules/verum-cli/index.js
+    plugs: [network]
+
+parts:
+  verum-cli:
+    plugin: nodejs
+    node-engine: "7.5.0"
+    node-packages:
+      - verum-cli
