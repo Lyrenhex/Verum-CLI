@@ -9,6 +9,9 @@ var username = null;
 var password = null;
 var action = null;
 
+const PATH = `${process.env.HOME}/snap/verum-cli/common/`
+console.log(`NOTICE: All file paths should be provided relative to ${process.env.HOME}/snap/verum-cli/common/ -- you should export your PGP keys here if you haven't already.`);
+
 if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (process.argv.length === 7)) {
   username = process.argv[2];
   password = process.argv[3];
@@ -18,10 +21,21 @@ if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (pro
   process.argv.splice(2, 0, username);
   process.argv.splice(3, 0, password);
 } else {
-  console.log(`Syntax: verum-cli <username> <password> <action> [options]
+  try {
+    fs.readFile(`${PATH}user.json`, 'utf-8', (err, data) => {
+      if (err) {
+        console.log(`Syntax: verum-cli <username> <password> <action> [options]
 
-Alternatively, you may set the VERUM_ID and VERUM_PASS environment variables to your username and password, respectively, and these may then be omitted from the command syntax.`);
-  process.exit();
+Alternatively, you may create a 'user.json' file in ${PATH} containing a 'username' and 'password' value, respectively, and these may then be omitted from the command syntax.
+Eg: {'username': 'bob@verumnode.com', 'password': 'randomPass123'}`);
+        process.exit();
+      } else {
+        var json = JSON.parse(data);
+        username = json.username;
+        password = json.password;
+      }
+    });
+  }
 }
 
 action = process.argv[4];
@@ -59,7 +73,7 @@ client.Events.on ('error', (err, ext) => {
       password = readlineSync.question("The password is incorrect. Password: ");
       break;
     case "User Missing Public Key":
-      var pubkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored public key file (should be done with full path): ");
+      var pubkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored public key file: ");
       fs.readFile(pubkeyLoc, 'utf-8', (err, data) => {
         if (err)
           console.log("Couldn't read the file: ", err);
@@ -76,7 +90,7 @@ client.Events.on('public_key', (user, key) => {
     console.log("Your public key is currently ", key);
     if (readlineSync.question("Would you like to change this key? [y/N] ").toLowerCase() === "y") {
       var pubkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored public key file (should be done with full path): ");
-      fs.readFile(pubkeyLoc, 'utf-8', (err, data) => {
+      fs.readFile(`${PATH}${pubkeyLoc}`, 'utf-8', (err, data) => {
         if (err)
           console.log("Couldn't read the file: ", err);
         else {
@@ -112,7 +126,7 @@ function handleCmd (input) {
   switch (input) {
     case "getmsgs":
       var privkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored private key file (should be done with full path): ");
-      fs.readFile(privkeyLoc, 'utf-8', (err, data) => {
+      fs.readFile(`${PATH}${privkeyLoc}`, 'utf-8', (err, data) => {
         if (err)
           console.log("Couldn't read the file: ", err);
         else {
@@ -150,7 +164,7 @@ function handleCmd (input) {
           });
         });
       } else {
-        console.log("Syntax: ./index.js <username> <password> sendmsg <Recipient's Verum ID> \"<message>\" (quotes must be included, <> delimit parameters that you should replace).");
+        console.log("Syntax: verum-cli <username> <password> sendmsg <Recipient's Verum ID> \"<message>\" (quotes must be included, <> delimit parameters that you should replace).");
         process.exit();
       }
       break;
