@@ -38,7 +38,7 @@ The same file path warning applies as in `updatepubkey`.
 
 ## Installation
 
-`verum-cli` is provided as a Snap Package, so you should (install that)[https://snapcraft.io/docs/core/install] first.
+`verum-cli` is provided as a Snap Package, so you should [install that](https://snapcraft.io/docs/core/install) first.
 
 Then, simply run `[sudo] snap install verum-cli` to install it. Run `snap refresh` to update your Snap apps.
 
