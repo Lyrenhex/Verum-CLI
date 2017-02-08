@@ -21,19 +21,18 @@ if ((process.argv.length >= 5 && process.argv.indexOf("sendmsg") === -1) || (pro
   process.argv.splice(2, 0, username);
   process.argv.splice(3, 0, password);
 } else {
-  fs.readFile(`${PATH}user.json`, 'utf-8', (err, data) => {
-    if (err) {
-      console.log(`Syntax: verum-cli <username> <password> <action> [options]
+  try {
+    var json = fs.readFile(`${PATH}user.json`, 'utf-8');
+    json = JSON.parse(json);
+    username = json.username;
+    password = json.password;
+  } catch (e) {
+    console.log(`Syntax: verum-cli <username> <password> <action> [options]
 
 Alternatively, you may create a 'user.json' file in ${PATH} containing a 'username' and 'password' value, respectively, and these may then be omitted from the command syntax.
 Eg: {'username': 'bob@verumnode.com', 'password': 'randomPass123'}`);
-      process.exit();
-    } else {
-      var json = JSON.parse(data);
-      username = json.username;
-      password = json.password;
-    }
-  });
+    process.exit();
+  }
 }
 
 action = process.argv[4];
