@@ -124,7 +124,7 @@ client.Events.on('registered', (ext) => {
 function handleCmd (input) {
   switch (input) {
     case "getmsgs":
-      var privkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored private key file (should be done with full path): ");
+      var privkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored private key file: ");
       fs.readFile(`${PATH}${privkeyLoc}`, 'utf-8', (err, data) => {
         if (err)
           console.log("Couldn't read the file: ", err);
@@ -148,8 +148,8 @@ function handleCmd (input) {
 
         recpNode.Events.on('welcome', (src) => {
           console.log("Recipient's Node's source is available at: ", src);
-          var privkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored private key file (should be done with full path) to sign the encrypted message: ");
-          fs.readFile(privkeyLoc, 'utf-8', (err, data) => {
+          var privkeyLoc = readlineSync.question("Please enter the location of your exported ascii armored private key file to sign the encrypted message: ");
+          fs.readFile(PATH + privkeyLoc, 'utf-8', (err, data) => {
             if (err)
               console.log("Couldn't read the file: ", err);
             else {
