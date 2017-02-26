@@ -7,11 +7,22 @@ the official command-line client for the Verum encrypted chat system
 ## How does it work?
 `verum-cli` commands, mostly, follow the following syntax:
 ```
-verum-cli <verum id> <password> [action] [options]
+verum-cli <action> [options]
 ```
-where `verum id` is your Verum ID (of the form _user_@_node_, eg. Scratso@node.verum.damianheaton.com), `password` is your password for that Node, and `action` is one of the following:
+where `action` is one of the following (though help can be obtained by providing a nonexistant action, or omitting the argument entirely):
 
 ### Actions
+
+**setup**
+
+This command sets up Verum-CLI with your Verum ID, password, public key, and private key. This command needs to **always** be used when you're:
+
+- setting up Verum-CLI
+- registering on a Verum Node
+- updating your public key on a Verum Node
+- switching Verum Nodes
+
+This command takes no arguments, using a tutorial-based structure to get required details.
 
 **register**
 
@@ -42,17 +53,6 @@ The same file path warning applies as in `updatepubkey`.
 
 Then, simply run `[sudo] snap install verum-cli` to install it. Run `snap refresh` to update your Snap apps.
 
-## Conveniences
+## What if I need to switch Nodes?
 
-`verum-cli` includes a convenience to make your life easier: saved verum ID and password. This is done thusly:
-
-1. Navigate to the path shown in the "NOTICE".
-2. Create a file called `user.json`.
-3. Add the content: ```{
-    "username": "user@examplenode.net",
-    "password": "randomPass123"
-  }```
-  - you should replace `user@examplenode.net` with your `verum id` and `randomPass123` with your verum password.
-4. You no longer need to include your username and password in `verum-cli` calls. Nice!
-
-(Note that if you do specify a `verum id` and password via the CLI, that will *always* take priority over `user.json`.)
+We get it. Sometimes Nodes are compromised, or you're changing your online identity. To change Nodes, just rerun `verum-cli setup` and `verum-cli register`. Then, update all your social media etc, and you're set!
