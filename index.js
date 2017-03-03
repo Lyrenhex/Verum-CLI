@@ -158,7 +158,31 @@ verum-cli register`);
             console.log("Message sent: ", etc);
             process.exit();
           });
-          recpNode.sendEncMsg(recipient, message, data.id, data.keys.secret.key);
+          // recpNode.sendEncMsg(recipient, message, data.id, data.keys.secret.key);
+
+          recpNode.Events.on('public_key', function sendEncMsg2 (user, key) {
+            if(user === recipient){
+              if (readlineSync.question(`Recipient's fingerprint is ${new verum.Key(key).fingerprint}. Continue? [y/N] `).toLowerCase() === 'y') {
+                var options = {
+                  data: message,
+                  publicKeys: pgp.key.readArmored(key).keys,
+                  privateKeys: pgp.key.readArmored(secretKey).keys // we must sign the message, to prove to the recipient that this was sent by me and not an impostor.
+                }
+
+                console.log("Encrypting message...");
+                pgp.encrypt(options).then(function(ciphertext){
+                  recpNode.websock.sendText(JSON.stringify({
+                    type: "message_send",
+                    user: recipient,
+                    msg: ciphertext,
+                    from: data.id
+                  }));
+                  recpNode.Events.removeListener('public_key', sendEncMsg2); // listener's served its purpose; destroy it.
+                });
+              }
+            }
+          });
+          this.getPubKey(recipient);
         });
       } else {
         console.log("Syntax: verum-cli sendmsg <Recipient's Verum ID> \"<message>\" (quotes must be included, <> delimit parameters that you should replace).");
