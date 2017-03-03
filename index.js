@@ -35,10 +35,6 @@ if (data !== null) {
   username = data.id.split("@")[0];
   var client = new verum (node[0], (node[1] !== undefined) ? node[1] : null);
 
-  client.Events.on ('welcome', (sourceUrl) => {
-    console.log("Connected to Node. Node's source is available at: ", sourceUrl);
-    handleCmd (action);
-  });
   client.Events.on ('error', (err, ext) => {
     switch (err) {
       case "User Doesn't Exist":
@@ -91,6 +87,11 @@ if (data !== null) {
   client.Events.on('registered', (ext) => {
     console.log("Registered: ", ext);
     process.exit();
+  });
+
+  client.Events.on ('welcome', (sourceUrl) => {
+    console.log("Connected to Node. Node's source is available at: ", sourceUrl);
+    handleCmd (action);
   });
 } else if (action === "setup")
   handleCmd(action);

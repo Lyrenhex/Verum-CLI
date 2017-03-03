@@ -1,5 +1,5 @@
 name: verum-cli
-version: "2.0.1"
+version: "2.0.2"
 summary: The official Verum CLI interface app.
 description: A Verum client to register with a Node, change your public key, send messages, and receive messages.
 confinement: strict
