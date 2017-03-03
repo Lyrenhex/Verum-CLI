@@ -4,6 +4,7 @@ const verum = require("verum").Client; // we only need the Client class
 const readlineSync = require("readline-sync");
 const readline = require("readline");
 const fs = require("fs");
+const pgp = require("openpgp");
 
 var data = null;
 
@@ -166,7 +167,7 @@ verum-cli register`);
                 var options = {
                   data: message,
                   publicKeys: pgp.key.readArmored(key).keys,
-                  privateKeys: pgp.key.readArmored(secretKey).keys // we must sign the message, to prove to the recipient that this was sent by me and not an impostor.
+                  privateKeys: pgp.key.readArmored(data.keys.secret.key).keys // we must sign the message, to prove to the recipient that this was sent by me and not an impostor.
                 }
 
                 console.log("Encrypting message...");
@@ -182,7 +183,7 @@ verum-cli register`);
               }
             }
           });
-          this.getPubKey(recipient);
+          recpNode.getPubKey(recipient);
         });
       } else {
         console.log("Syntax: verum-cli sendmsg <Recipient's Verum ID> \"<message>\" (quotes must be included, <> delimit parameters that you should replace).");
