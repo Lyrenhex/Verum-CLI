@@ -138,12 +138,18 @@ verum-cli register`);
       }
       break;
     case "getmsgs":
+      console.log("The 'getmsgs' command has been renamed to 'get'. Please use 'verum-cli get' from now on.");
+      break;
+    case "sendmsg":
+      console.log("The 'sendmsg' command has been renamed to 'send'. Please use 'verum-cli send' from now on.");
+      break;
+    case "get":
       client.getEncMsgs (username, data.pass, data.keys.secret.key);
       break;
     case "updatepubkey":
       client.getPubKey(username);
       break;
-    case "sendmsg":
+    case "send":
       if (process.argv.length >= 5){
         var recipient = process.argv[3];
         var message = process.argv[4];
@@ -161,7 +167,7 @@ verum-cli register`);
           recpNode.sendEncMsg(recipient, message, data.id, data.keys.secret.key);
         });
       } else {
-        console.log("Syntax: verum-cli sendmsg <Recipient's Verum ID> \"<message>\" (quotes must be included, <> delimit parameters that you should replace).");
+        console.log("Syntax: verum-cli send <Recipient's Verum ID> \"<message>\" (quotes must be included, <> delimit parameters that you should replace).");
         process.exit();
       }
       break;
@@ -172,8 +178,8 @@ verum-cli register`);
       console.log(`Unknown action. Accepted actions:
         - 'setup' :: Sets your verum ID and password for Verum-CLI (this should also be used if your secret key changes!)
         - 'register' :: registers your user account on the Node (must be done after 'setup', and will not ask for user data)
-        - 'sendmsg <recipient's Verum ID> <message>' :: sends a message to a recipient
-        - 'getmsgs' :: retrieves your messages from the Node
+        - 'send <recipient's Verum ID> <message>' :: sends a message to a recipient
+        - 'get' :: retrieves your messages from the Node
         - 'updatepubkey' :: updates your pub key on the Node (this should be done after 'setup', as it will not ask for your key)`);
       process.exit();
   }
